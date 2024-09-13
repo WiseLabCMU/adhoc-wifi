@@ -1,11 +1,10 @@
+import argparse
 import socket
 import threading
 import time
 
-MY_ID = "3"
 BROADCAST_IP = "192.168.1.255"
 PORT = 12345
-MESSAGE = "Hello from " + MY_ID
 
 
 def listen_hello():
@@ -19,6 +18,7 @@ def listen_hello():
           print(f"Received msg from {addr}: {data.decode('utf-8')}")
 
 def send_hello():
+    global MESSAGE
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         while True:
@@ -27,6 +27,11 @@ def send_hello():
             time.sleep(10)
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('ip_part', type=int)
+    args = parser.parse_args()
+    MESSAGE = f"Hello from {args.ip_part}"
+
     listen_thread = threading.Thread(target=listen_hello, daemon=True)
     listen_thread.start()
     send_hello()

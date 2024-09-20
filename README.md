@@ -1,7 +1,7 @@
 # Testing configuration of low-power wifi adhoc networks on Jetson Orin Nano.
 
 ## Test scripts, testing mesh mode. 
-- `sudo apt install iw wireless-tools`
+- `sudo apt install iw`
 - `sudo ./iwup.sh`
 - `python3 ping.py`
 

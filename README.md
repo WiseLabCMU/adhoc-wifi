@@ -19,6 +19,7 @@
 - `sudo reboot`
 - https://pages.ubuntu.com/rs/066-EOV-335/images/Ubuntu_22.04_for_NVIDIA_Jetson_Orin_Instructions.pdf
 - sudo apt install nvidia-tegra drivers per doc above “Install NVIDIA proprietary software”
+  - **NOTE: When using Ubuntu Desktop 22 from Jetson SDK, installing the `nvidia-tegra` drivers inexplicably nukes all other drivers (display, network, etc) on the device.**
 - Result: Onboard Realtek wifi hardware/drivers report **adhoc (ibss)** available, but commands failed silently.
 
 ### 3. New NIC Hardware Try:

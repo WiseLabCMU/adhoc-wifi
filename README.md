@@ -40,3 +40,20 @@
     - https://github.com/phillymesh/802.11s-adapters
 - Added Panda wifi USB adapter: https://www.amazon.com/Panda-Ultra-150Mbps-Wireless-Adapter/dp/B00762YNMG
 - Result: USB Panda wifi hardware/drivers report **adhoc (ibss) and mesh** available, both sets of commands worked.
+
+## Testing Mesh Network recovery
+- Given nodes `A, B, C, D` arranged "linearly" by position and physical wireless links:
+  ```
+  A ---------- B -------------C ----------D
+  ```
+  802.11s will automatically route the entire network from/to each node
+- When the network topology fragments, e.g.
+  ```
+  A ---------- B                  C ----------D
+  ```
+  - Naturally cell division will occur and nodes `A,B` will still be able to communicate with each other, as will `C,D`.
+- When either `A,B` and `C,D` come back within range of each other, the network will re-merge and be restored for full routing from/to each node once again
+    ```
+    B ---------- A -------------C ----------D
+    ```
+  - **Note:** In simple wireless adhoc mode, this remerge after fragmentation is *unreliable*, and In fact even on initial network initialization can result in cell division despite what should be viable physical wireless links.

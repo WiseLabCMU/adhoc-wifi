@@ -15,11 +15,23 @@
 ### 2. Eliminating OS/Drivers Setup:
 - Update BIOS
 - Flash ubuntu server 22 for Jetso Orin Nano: https://ubuntu.com/download/nvidia-jetson
-- sudo apt dist-upgrade
-- `sudo reboot`
-- https://pages.ubuntu.com/rs/066-EOV-335/images/Ubuntu_22.04_for_NVIDIA_Jetson_Orin_Instructions.pdf
-- sudo apt install nvidia-tegra drivers per doc above “Install NVIDIA proprietary software”
-  - **NOTE: When using Ubuntu Desktop 22 from Jetson SDK, installing the `nvidia-tegra` drivers inexplicably nukes all other drivers (display, network, etc) on the device.**
+- Update general ubuntu packages
+  ```
+   sudo apt dist-upgrade
+   sudo reboot
+   ```
+- Install nvidia-tegra drivers per doc [Install NVIDIA proprietary software](https://pages.ubuntu.com/rs/066-EOV-335/images/Ubuntu_22.04_for_NVIDIA_Jetson_Orin_Instructions.pdf)
+   ```
+   sudo add-apt-repository ppa:ubuntu-tegra/updates
+   sudo apt install -y nvidia-tegra-drivers-36
+   sudo usermod -a -G render,video ubuntu
+   sudo reboot
+   ```
+  - **WARNING: When using Ubuntu Desktop 22 from Jetson SDK, installing the `nvidia-tegra` drivers inexplicably nukes all other drivers (display, network, etc) on the device.**
+- Install ubuntu package `iw` to manage wireless config 
+  ```
+  sudo apt install -y iw
+  ```
 - Result: Onboard Realtek wifi hardware/drivers report **adhoc (ibss)** available, but commands failed silently.
 
 ### 3. New NIC Hardware Try:

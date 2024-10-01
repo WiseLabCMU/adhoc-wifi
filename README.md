@@ -42,7 +42,7 @@
 ### 4. Add GUI Components
 
 - `sudo apt install slim ubuntu-desktop`
-- Rviz
+- ...
 
 ## Test scripts, testing mesh mode.
 
@@ -67,3 +67,9 @@
   B ---------- A ------------- C ---------- D
   ```
   - **Note:** In simple wireless adhoc mode, this remerge after fragmentation is _unreliable_, and In fact even on initial network initialization can result in cell division despite what should be viable physical wireless links.
+
+## Next Steps
+
+- Add ROS 2 node
+- Add ROS Viz2
+- ROS to UDP bridge without retries or fragmentation

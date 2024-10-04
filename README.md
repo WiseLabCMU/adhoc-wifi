@@ -39,10 +39,9 @@
 - Added Panda wifi USB adapter: https://www.amazon.com/Panda-Ultra-150Mbps-Wireless-Adapter/dp/B00762YNMG
 - Result: USB Panda wifi hardware/drivers report **adhoc (ibss) and mesh** available, both sets of commands worked.
 
-### 4. Add GUI Components
+### 4. Add GUI Components (optional)
 
 - `sudo apt install slim ubuntu-desktop`
-- ...
 
 ## Test scripts, testing mesh mode.
 
@@ -68,8 +67,27 @@
   ```
   - **Note:** In simple wireless adhoc mode, this remerge after fragmentation is _unreliable_, and In fact even on initial network initialization can result in cell division despite what should be viable physical wireless links.
 
-## Next Steps
+# ROS2
+Per https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html
 
-- Add ROS 2 node
-- Add ROS Viz2
+```
+sudo apt install software-properties-common
+sudo add-apt-repository universe
+sudo apt update
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+sudo apt update && sudo apt upgrade -y
+```
+And either ROS default graphical bundle if using wiith Ubuntu Desktop, ROS2 and RViz will be installed
+```
+sudo apt install ros-humble-desktop
+```
+
+OR just `ros-base` for ROS2 CLI-only
+```
+sudo apt install ros-humble-ros-base
+```
+
+
+## Next Steps
 - ROS to UDP bridge without retries or fragmentation

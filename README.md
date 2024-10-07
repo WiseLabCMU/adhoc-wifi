@@ -90,4 +90,5 @@ sudo apt install ros-humble-ros-base
 
 
 ## Next Steps
+- Set ROS to loopback only (don't let it interact with mesh subnet)
 - ROS to UDP bridge without retries or fragmentation

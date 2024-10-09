@@ -6,7 +6,7 @@
 
 - Tried with Jetson SDK Desktop at first: https://developer.nvidia.com/embedded/jetpack-sdk-60
 - Disabled network manager service to avoid fighting configurations.
-- Result: Onboard Realtek wifi hardware/drivers report **adhoc (ibss)** available, but commands failed silently.
+- Result: Onboard Realtek wifi hardware/drivers report adhoc (ibss) available, but **commands failed silently**.
 
 ### 2. Eliminating OS/Drivers Setup:
 
@@ -29,7 +29,7 @@
   ```
   sudo apt install -y iw
   ```
-- Result: Onboard Realtek wifi hardware/drivers report **adhoc (ibss)** available, but commands failed silently.
+- Result: Onboard Realtek wifi hardware/drivers report **adhoc (ibss)** available, but commands still failed silently.
 
 ### 3. New NIC Hardware Try:
 
@@ -60,12 +60,12 @@
   ```
   A ---------- B               C ---------- D
   ```
-  - Naturally cell division will occur and nodes `A,B` will still be able to communicate with each other, as will `C,D`.
-- When either `A,B` and `C,D` come back within range of each other, the network will re-merge and be restored for full routing from/to each node once again
+  - Naturally cell division will occur and nodes `A,B` will still be able to communicate with each other, as will `C,D`. Connection drops can be simulated by simply setting TX power to 0, which will limit viable connection range to a few feet.
+- When either `A,B` and `C,D` come back within range of each other, the network will re-merge and be restored for full routing from/to each node once again. 
   ```
   B ---------- A ------------- C ---------- D
   ```
-  - **Note:** In simple wireless adhoc mode, this remerge after fragmentation is _unreliable_, and In fact even on initial network initialization can result in cell division despite what should be viable physical wireless links.
+  - **Note:** In simple wireless adhoc mode, this remerge after fragmentation is _unreliable_, and in fact even first ad-hoc network initialization can result in cell division despite what should be viable physical wireless links.
 
 # ROS2
 Per https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html
@@ -91,4 +91,5 @@ sudo apt install ros-humble-ros-base
 
 ## Next Steps
 - Set ROS to loopback only (don't let it interact with mesh subnet)
-- ROS to UDP bridge without retries or fragmentation
+- Setup Isaac ROS Dev Base containers
+- ROS2UDP bridge python ROS package without retries or fragmentation

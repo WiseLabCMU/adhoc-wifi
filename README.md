@@ -88,8 +88,11 @@ OR just `ros-base` for ROS2 CLI-only
 sudo apt install ros-humble-ros-base
 ```
 
+## MQTT2UDP (future ROS2UDP) Bridge
+We create an example of using [UDP to bridge MQTT messages](udp_bridge.py) with conceptually similar publish/subscribe functionality.
+While in this case there is a shared MQTT broker, a drop-in replacement with ROS2 would have each device subscribing
+and publishing to its own respective local ROS instance.
 
 ## Next Steps
 - Set ROS to loopback only (don't let it interact with mesh subnet)
 - Setup Isaac ROS Dev Base containers
-- ROS2UDP bridge python ROS package without retries or fragmentation

@@ -15,7 +15,7 @@ MQTT_SUBSCRIBE_TOPIC = f"outgoing/{CLIENT_ID}"
 MQTT_PUBLISH_TOPIC_PREFIX = "receive/"
 
 UDP_IP = "0.0.0.0"
-UDP_PORT = (10000 + CLIENT_ID)  # Workaround diff ports on same machine 
+UDP_PORT = (10000 + CLIENT_ID)  # Workaround diff ports on same machine, just use a fixed one otherwise
 MTU_SIZE = 1472
 
 mqtt_to_udp_queue = queue.Queue()
@@ -87,7 +87,7 @@ def udp_thread(logger):
         if not mqtt_to_udp_queue.empty():
             try:
                 udp_dest_ip, message = mqtt_to_udp_queue.get()
-                dest_port = UDP_PORT + int(udp_dest_ip.split(".")[-1]) # Port offset workaround, remove later
+                dest_port = UDP_PORT + int(udp_dest_ip.split(".")[-1]) # Port offset workaround for testing on same machine, use fixed port later
                 udp_sock.sendto(
                     message.encode("utf-8"), (udp_dest_ip, dest_port) 
                 )

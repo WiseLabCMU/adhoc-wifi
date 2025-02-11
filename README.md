@@ -38,6 +38,8 @@
   - https://github.com/phillymesh/802.11s-adapters
 - Added Panda wifi USB adapter: https://www.amazon.com/Panda-Ultra-150Mbps-Wireless-Adapter/dp/B00762YNMG
 - Result: USB Panda wifi hardware/drivers report **adhoc (ibss) and mesh** available, both sets of commands worked.
+- Added ALFA Network AWUS036ACM wifi USB adapter: https://www.amazon.com/dp/B08BJS8FXD
+- Result: Wifi hardware/drivers (`mt76x2u`) report **adhoc (ibss) and mesh** available, both sets of commands worked.
 
 ### 4. Add GUI Components (optional)
 

@@ -1,6 +1,22 @@
 # Testing configuration of low-power wifi adhoc networks on Jetson Orin Nano.
 
-## Configuration Attempts
+## Critical Path
+
+**Recommendation**: Use a network adapter with `802.11s mesh` networking mode for it's redundancy in highly variable and volatile network topologies.
+
+**Critical Path**:
+
+1. Install a 802.11s mesh USB adapter that fits your sourcing and power requirements.
+1. Install Ubuntu package `iw` to manage wireless configuration.
+1. Use script `iwup.sh`, it:
+   - Disables default desktop Network Manager Realtek wi-fi `managed` service.
+   - Renames the USB mesh wi-fi adapter to `wlan0`.
+   - Activates the USB mesh wi-fi adapter for `mesh` service.
+1. Test send and receive across the mesh network with `ping.py`.
+1. Complete above steps on 2+ Jetson Nanos, they should be reporting each others' pings.
+1. Debug: `iw wlan0 info` command should report 802.11s mesh status.
+
+## Configuration Attempts History
 
 ### 1. First Steps:
 
@@ -51,6 +67,37 @@
 - `sudo ./iwup.sh`
 - `python3 ping.py`
 
+  ```bash
+  ubuntu@ubuntu:~/adhoc-wifi$ python3 ping.py 3
+  Listening on 12345
+  Sent broadcast
+  Received msg from ('192.168.1.3', 51025): Hello from 3
+  Received msg from ('192.168.1.4', 56377): Hello from 4
+  Received msg from ('192.168.1.2', 49694): Hello from 2
+  Received msg from ('192.168.1.3', 51025): Hello from 3
+  Sent broadcast
+  Received msg from ('192.168.1.4', 56377): Hello from 4
+  Received msg from ('192.168.1.2', 49694): Hello from 2
+  Sent broadcast
+  ```
+
+- `iw wlan0 info`
+
+  ```bash
+  ubuntu@ubuntu:~/adhoc-wifi$ iw wlan0 info
+  Interface wlan0
+      ifindex 5
+      wdev 0X300000001
+      addr 00:c0:ca:b7:65:d3
+      type mesh point
+      wiphy 3
+      channe1 3 (2422 MHz), width: 20 MHz (no HT), center1: 2422 MHz
+      txpower 20.00 dBm
+      multicast TXQ:
+          qsz-byt qsz-pkt flows   drops   marks   overlmt hashcol tx-bytes  tx-packets
+          0       0       184322  0       0       0       0       14759168  184382
+  ```
+
 ## Testing Mesh Network recovery
 
 - Given nodes `A, B, C, D` arranged "linearly" by position and physical wireless links:
@@ -63,13 +110,14 @@
   A ---------- B               C ---------- D
   ```
   - Naturally cell division will occur and nodes `A,B` will still be able to communicate with each other, as will `C,D`. Connection drops can be simulated by simply setting TX power to 0, which will limit viable connection range to a few feet.
-- When either `A,B` and `C,D` come back within range of each other, the network will re-merge and be restored for full routing from/to each node once again. 
+- When either `A,B` and `C,D` come back within range of each other, the network will re-merge and be restored for full routing from/to each node once again.
   ```
   B ---------- A ------------- C ---------- D
   ```
   - **Note:** In simple wireless adhoc mode, this remerge after fragmentation is _unreliable_, and in fact even first ad-hoc network initialization can result in cell division despite what should be viable physical wireless links.
 
 # ROS2
+
 Per https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html
 
 ```
@@ -80,21 +128,26 @@ sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
 sudo apt update && sudo apt upgrade -y
 ```
+
 And either ROS default graphical bundle if using wiith Ubuntu Desktop, ROS2 and RViz will be installed
+
 ```
 sudo apt install ros-humble-desktop
 ```
 
 OR just `ros-base` for ROS2 CLI-only
+
 ```
 sudo apt install ros-humble-ros-base
 ```
 
 ## MQTT2UDP (future ROS2UDP) Bridge
+
 We create an example of using [UDP to bridge MQTT messages](udp_bridge.py) with conceptually similar publish/subscribe functionality.
 While in this case there is a shared MQTT broker, a drop-in replacement with ROS2 would have each device subscribing
 and publishing to its own respective local ROS instance.
 
 ## Next Steps
+
 - Set ROS to loopback only (don't let it interact with mesh subnet)
 - Setup Isaac ROS Dev Base containers

@@ -1,5 +1,10 @@
 #!/bin/bash
 # Usage: sudo ./iwup.sh 3
+# - Parameter $1 is the named IP subnet address number to use, unique for this device.
+# - "wlx*"" is a wild card for the default NIC interface name (e.g. wlx9cefd5f986da), change if needed.
+# - "wlan0" is only a convenience shorthand for CLI tests, change if needed.
+# - "wiseMesh" is a name for a network pool, change if needed.
+# - "2422" is the frequency of the wi-fi channel to use, change if needed.
 
 if [ $# -eq 0 ]
   then
